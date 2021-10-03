@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb044d7ec872a14d8aa56d83f095751, type: 3}
+  m_Name: CutsceneDefines
+  m_EditorClassIdentifier: 
+  luaString: "-- global defines for cutscenes\r\n\r\nfunction teleport(mapName, x,
+    y, dir, raw)\r\n    cs_teleport(mapName, x, y, dir, raw)\r\n    await()\r\nend\r\n\r\nfunction
+    targetTele(mapName, eventName, dir, raw)\r\n    cs_targetTele(mapName, eventName,
+    dir, raw)\r\n    await()\r\nend\r\n\r\nfunction orderMenu()\r\n    cs_orderMenu()\r\n   
+    await()\r\nend\r\n\r\nfunction split(unit1, unit2)\r\n    cs_split(unit1, unit2)\r\n   
+    await()\r\nend\r\n\r\nfunction choose()\r\n    cs_choose()\r\n    await()\r\n   
+    return selection\r\nend\r\n\nfunction mixMenu(key)\n    cs_mixMenu(key)\n   
+    await()\nend\n\r\nfunction awaitPan(target, duration)\r\n    cs_awaitPan()\r\n   
+    await()\r\nend\r\n\r\nfunction cancelPan(duration)\r\n    cs_cancelPan(duration)\r\n   
+    await()\r\nend\r\n\r\nfunction memTele(transitionMap, targetMap, target, ab)\r\n   
+    cs_memTele(transitionMap, targetMap, target, ab)\r\n    await()\r\nend\r\n\r\nfunction
+    fadeOutBGM(seconds)\r\n    cs_fadeOutBGM(seconds)\r\n    await()\r\nend\r\n\r\nfunction
+    fade(fadeKey)\r\n    cs_fade(fadeKey)\r\n    await()\r\nend\r\n\r\nfunction speak(speaker,
+    line)\r\n    cs_speak(speaker, line)\r\n    await()\r\nend\r\n\r\nfunction meatShop(datakey)\r\n   
+    cs_meatshop(datakey)\r\n    await()\r\nend\r\n\r\nfunction walk(event, count,
+    direction, wait)\r\n    if wait == nil then wait = true end\r\n    cs_walk(event,
+    count, direction, wait)\r\n    if wait then\r\n        await()\r\n    end\r\nend\r\n\r\nfunction
+    path(event, arg1, arg2, arg3)\r\n    cs_path(event, arg1, arg2, arg3)\r\n   
+    await()\r\nend\r\n\r\nfunction pathEvent(mover, target, wait)\r\n    if wait
+    == nil then wait = true end\r\n    cs_pathEvent(mover, target, wait)\r\n    if
+    wait then\r\n        await()\r\n    end\r\nend\r\n\r\nfunction battle(party,
+    canRun, bgm, boss)\r\n    cs_battle(party, canRun, bgm, boss)\r\n    await()\r\nend\r\n\r\nfunction
+    recruit(datakey)\r\n    cs_recruit(datakey)\r\n    await()\r\nend\r\n\r\nfunction
+    shop(datakey)\r\n    cs_shop(datakey)\r\n    await()\r\nend\r\n\r\nfunction inn()\r\n   
+    cs_inn()\r\n    await()\r\nend\r\n"
