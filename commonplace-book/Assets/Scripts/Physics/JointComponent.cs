@@ -3,8 +3,8 @@
 public class JointComponent : MonoBehaviour {
 
     [SerializeField] private Vector3 neutralDirection = new Vector3(0, 1, 0);
-    [SerializeField] private float damping = .5f;
-    [SerializeField] private float springiness = .5f;
+    [SerializeField] private float damping = 40f;
+    [SerializeField] private float springiness = 10f;
 
     private Quaternion origRotation;
     private Vector3 angularVelocity;

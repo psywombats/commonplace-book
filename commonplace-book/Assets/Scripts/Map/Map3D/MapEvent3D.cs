@@ -3,7 +3,7 @@
 public class MapEvent3D : MapEvent {
 
     public override Vector3 TileToWorldCoords(Vector2Int position) {
-        return new Vector3(position.x, Map.Terrain.HeightAt(position), position.y);
+        return new Vector3(position.x, Map.GetHeightAt(position), position.y);
     }
 
     public static Vector2Int WorldPositionTileCoords(Vector3 pos) {
@@ -17,7 +17,7 @@ public class MapEvent3D : MapEvent {
     }
 
     public override void SetScreenPositionToMatchTilePosition() {
-        transform.localPosition = new Vector3(position.x, Map.Terrain.HeightAt(position), position.y);
+        transform.localPosition = new Vector3(position.x, Map.GetHeightAt(position), position.y);
         positionPx = transform.localPosition;
     }
 
@@ -30,7 +30,7 @@ public class MapEvent3D : MapEvent {
         if (Map != null) {
             transform.localPosition = new Vector3(
                 gameObject.transform.localPosition.x,
-                Map.Terrain.HeightAt(position),
+                Map.GetHeightAt(position),
                 gameObject.transform.localPosition.z);
         }
     }

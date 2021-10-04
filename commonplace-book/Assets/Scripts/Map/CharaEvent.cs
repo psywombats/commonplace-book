@@ -44,14 +44,6 @@ public class CharaEvent : MonoBehaviour {
         }
     }
 
-    private TacticsTerrainMesh _terrain;
-    public TacticsTerrainMesh terrain {
-        get {
-            if (_terrain == null) _terrain = GetComponent<MapEvent>().Map.Terrain;
-            return _terrain;
-        }
-    }
-
     [SerializeField] [HideInInspector] private OrthoDir _facing = OrthoDir.South;
     public OrthoDir Facing {
         get { return _facing; }
@@ -130,8 +122,8 @@ public class CharaEvent : MonoBehaviour {
     }
 
     public bool CanCrossTileGradient(Vector2Int from, Vector2Int to) {
-        float fromHeight = terrain.HeightAt(from);
-        float toHeight = GetComponent<MapEvent>().Map.Terrain.HeightAt(to);
+        float fromHeight = Map.GetHeightAt(from);
+        float toHeight = GetComponent<MapEvent>().Map.GetHeightAt(to);
         return Mathf.Abs(fromHeight - toHeight) < 1.0f && toHeight > 0.0f;
         //if (fromHeight < toHeight) {
         //    return toHeight - fromHeight <= unit.GetMaxAscent();

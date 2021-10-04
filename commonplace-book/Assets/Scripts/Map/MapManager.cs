@@ -8,6 +8,7 @@ public class MapManager : SingletonBehavior {
 
     public Map ActiveMap { get; set; }
     public AvatarEvent Avatar { get; set; }
+    public MapGenerator Generator { get; private set; } = new MapGenerator();
 
     private MapCamera _camera;
     public new MapCamera camera {
@@ -50,7 +51,7 @@ public class MapManager : SingletonBehavior {
         Assert.IsNotNull(ActiveMap);
         Assert.IsNotNull(Avatar);
 
-        Avatar.transform.SetParent(map.objectLayer.transform, false);
+        Avatar.transform.SetParent(map.ObjectLayer.transform, false);
 
         ActiveMap.OnTeleportAway();
         Destroy(ActiveMap.gameObject.transform.parent.gameObject);

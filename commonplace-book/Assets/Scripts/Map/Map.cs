@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class Map : MonoBehaviour {
+public abstract class Map : MonoBehaviour {
 
     /// <summary>The number of pixels a tile takes up</summary>
     public const int PxPerTile = 16;
@@ -11,36 +11,24 @@ public class Map : MonoBehaviour {
 
     public const string ResourcePath = "Maps/";
     
-    public Grid grid;
-    public ObjectLayer objectLayer;
+    [SerializeField] private Grid grid;
+    [SerializeField] private ObjectLayer objectLayer;
+    [SerializeField] private string bgmKey;
 
-    public string bgmKey { get; private set; }
-
-    private Vector2Int _size;
-    public Vector2Int size {
-        get {
-            if (_size.x == 0) {
-                _size = GetComponent<TacticsTerrainMesh>().size;
-            }
-            return _size;
-        }
-    }
-    public Vector2 sizePx { get { return size * PxPerTile; } }
-    public int width { get { return size.x; } }
-    public int height { get { return size.y; } }
-
-    private TacticsTerrainMesh _terrain;
-    public TacticsTerrainMesh Terrain {
-        get {
-            if (_terrain == null) _terrain = GetComponent<TacticsTerrainMesh>();
-            return _terrain;
-        }
-    }
+    public string BgmKey => bgmKey;
+    public ObjectLayer ObjectLayer => objectLayer;
+    
+    public abstract Vector2Int Size { get; }
+    public Vector2 SizePx { get { return Size * PxPerTile; } }
+    public int Width { get { return Size.x; } }
+    public int Height { get { return Size.y; } }
 
     public void Start() {
         // TODO: figure out loading
         Global.Instance().Maps.ActiveMap = this;
     }
+
+    public abstract float GetHeightAt(Vector2Int loc);
 
     public Vector3Int TileToTilemapCoords(Vector2Int loc) {
         return TileToTilemapCoords(loc.x, loc.y);
@@ -90,8 +78,8 @@ public class Map : MonoBehaviour {
     }
 
     public void OnTeleportTo() {
-        if (bgmKey != null) {
-            Global.Instance().Audio.PlayBGM(bgmKey);
+        if (BgmKey != null) {
+            Global.Instance().Audio.PlayBGM(BgmKey);
         }
     }
 
