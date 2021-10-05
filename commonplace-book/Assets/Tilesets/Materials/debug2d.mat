@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: debug2d
+  m_Shader: {fileID: 4800000, guid: 80d050a06ea768a43a938a1d040594e2, type: 3}
+  m_ShaderKeywords: _CCLAMPBLACK_ON _RDISPKEEPALPHA_ON _SCOLOREXCLUDEALPHA_ON _TDISTTAILOFF_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 20559cb4b2949d34a9c0da3c5314136a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RDispTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _Alpha: 1
+    - _BumpScale: 1
+    - _CClampB: 1
+    - _CClampBlack: 1
+    - _CClampBrightness: 0
+    - _CClampDither: 0
+    - _CClampDitherChunk: 0.5
+    - _CClampDitherVary: 0
+    - _CClampEnabled: 0
+    - _CClampG: 1
+    - _CClampJitterB: 0
+    - _CClampJitterG: 0
+    - _CClampJitterR: 0
+    - _CClampR: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _Elapsed: 1
+    - _EnableExternalAlpha: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HBleedAlphaRestrict: 0
+    - _HBleedChance: 0.5
+    - _HBleedChunking: 0.5
+    - _HBleedChunkingVariance: 0.5
+    - _HBleedEnabled: 0
+    - _HBleedTailing: 0.5
+    - _HBleedTailingVariance: 0.5
+    - _HDispChance: 0.5
+    - _HDispChunking: 0.5
+    - _HDispChunkingVariance: 0.5
+    - _HDispEnabled: 0
+    - _HDispPower: 0.5
+    - _HDispPowerVariance: 0.5
+    - _HDispSloppyPower: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _PDistAlphaIncluded: 0
+    - _PDistEnabled: 0
+    - _PDistInvertB: 0
+    - _PDistInvertG: 0
+    - _PDistInvertR: 0
+    - _PDistMaxB: 0
+    - _PDistMaxG: 0
+    - _PDistMaxR: 0
+    - _PDistMonocolorChance: 0
+    - _PDistSimultaneousInvert: 0
+    - _PEdgeAmplitude: 0.5
+    - _PEdgeDepthMax: 0.5
+    - _PEdgeDepthMin: 0
+    - _PEdgeDistanceGrain: 1
+    - _PEdgeDuration: 0.5
+    - _PEdgeEnabled: 0
+    - _PEdgePower: 1
+    - _PEdgeUseWaveSource: 0
+    - _Parallax: 0.02
+    - _RDispChance: 0.5
+    - _RDispChunkVariance: 0.5
+    - _RDispChunkXSize: 0.5
+    - _RDispChunkYSize: 0.5
+    - _RDispCopyOnly: 0
+    - _RDispEnabled: 0
+    - _RDispInvertSource: 0
+    - _RDispKeepAlpha: 1
+    - _RDispMaxPowerX: 0.5
+    - _RDispMaxPowerY: 0.5
+    - _RDispMinPowerX: -0.5
+    - _RDispMinPowerY: -0.5
+    - _ResolutionX: 1066
+    - _ResolutionY: 600
+    - _SColorBleed: 0
+    - _SColorBrightness: 0
+    - _SColorChance: 0.5
+    - _SColorEnabled: 0
+    - _SColorExcludeAlpha: 1
+    - _SColorGap: 0.05
+    - _SColorStatic: 0
+    - _SColorVelocity: 0
+    - _SFrameAlphaIncluded: 0
+    - _SFrameChance: 0.5
+    - _SFrameChunking: 0.5
+    - _SFrameChunkingVariance: 0.5
+    - _SFrameEnabled: 0
+    - _SShiftChance: 0.5
+    - _SShiftEnabled: 0
+    - _SShiftPowerMax: 0.5
+    - _SShiftPowerMin: 0.25
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TDispPreserveBrightness: 0
+    - _TDistChance: 0.5
+    - _TDistChunking: 0.5
+    - _TDistColorBarSize: 0
+    - _TDistDuration: 0.5
+    - _TDistEnabled: 0
+    - _TDistExcludeAlpha: 0
+    - _TDistHDisp: 0
+    - _TDistHDispPower: 0.5
+    - _TDistHDispPowerVariance: 0.5
+    - _TDistInvertB: 0
+    - _TDistInvertG: 0
+    - _TDistInvertR: 0
+    - _TDistStaticBarSize: 0.5
+    - _TDistStaticSize: 0.5
+    - _TDistTailoff: 1
+    - _UVSec: 0
+    - _VSyncChance: 0.5
+    - _VSyncDuration: 0.5
+    - _VSyncEnabled: 0
+    - _VSyncJitterChance: 0.5
+    - _VSyncJitterDuration: 0.5
+    - _VSyncPowerMax: 0.5
+    - _VSyncPowerMin: -0.5
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _PDistMonocolor: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

@@ -111,10 +111,10 @@ public class CharaEvent : MonoBehaviour {
         }
     }
 
-    public void SetAppearanceByTag(string fieldSpriteTag) {
-        Sprites.SetByTag(fieldSpriteTag);
-        UpdateAppearance();
-    }
+    //public void SetAppearanceByTag(string fieldSpriteTag) {
+    //    Sprites.SetByTag(fieldSpriteTag);
+    //    UpdateAppearance();
+    //}
 
     public IEnumerator FadeRoutine(float duration, bool inverse = false) {
         float val = inverse ? 1.0f : 0.0f;

@@ -21,7 +21,7 @@ public class GeneratedQuad {
     // creating a new quad mutates the tri/vert/uv arrays
     public GeneratedQuad(List<int> tris, List<Vector3> vertices, List<Vector2> uvs,
             Vector3 lowerLeft, Vector3 lowerRight, Vector3 upperRight, Vector3 upperLeft,
-            Tile tile, Tilemap tileset, Vector3 normal, Vector2Int pos) {
+            Tile tile, Vector3 normal, Vector2Int pos) {
         trisIndex = tris.Count;
         vertsIndex = vertices.Count;
 
@@ -30,31 +30,55 @@ public class GeneratedQuad {
         this.pos = pos;
 
         int i = vertices.Count;
-        vertices.Add(lowerLeft);
-        vertices.Add(lowerRight);
-        vertices.Add(upperLeft);
-        vertices.Add(upperRight);
-
         Debug.Assert(tile != null);
         Vector2[] spriteUVs = tile.sprite.uv;
-        if (normal.y == 0.0f) {
-            spriteUVs = MathHelper3D.AdjustZ(spriteUVs, tileset, lowerLeft.y, normal.x == 0.0f);
-        }
+        //if (normal.y == 0.0f) {
+        //    spriteUVs = MathHelper3D.AdjustZ(spriteUVs, tileset, lowerLeft.y, normal.x == 0.0f);
+        //}
 
-        ourUVs = new Vector2[4] {
-            spriteUVs[2],
-            spriteUVs[0],
-            spriteUVs[3],
-            spriteUVs[1],
-        };
+        if (lowerRight.y != upperLeft.y) {
+            vertices.Add(lowerLeft);
+            vertices.Add(upperLeft);
+            vertices.Add(upperRight);
+            vertices.Add(lowerLeft);
+            vertices.Add(upperRight);
+            vertices.Add(lowerRight);
+
+            ourUVs = new Vector2[6] {
+                spriteUVs[2],
+                spriteUVs[0],
+                spriteUVs[1],
+                spriteUVs[2],
+                spriteUVs[1],
+                spriteUVs[3],
+            };
+        } else {
+            vertices.Add(lowerLeft);
+            vertices.Add(upperLeft);
+            vertices.Add(lowerRight);
+            vertices.Add(upperLeft);
+            vertices.Add(upperRight);
+            vertices.Add(lowerRight);
+
+            ourUVs = new Vector2[6] {
+                spriteUVs[2],
+                spriteUVs[0],
+                spriteUVs[3],
+                spriteUVs[0],
+                spriteUVs[1],
+                spriteUVs[3],
+            };
+        }
+       
+
         uvs.AddRange(ourUVs);
 
         tris.Add(i);
         tris.Add(i + 1);
         tris.Add(i + 2);
-        tris.Add(i + 1);
         tris.Add(i + 3);
-        tris.Add(i + 2);
+        tris.Add(i + 4);
+        tris.Add(i + 5);
     }
 
     public void UpdateTile(Tile tile, Tilemap tileset, float lowerLeftHeight) {

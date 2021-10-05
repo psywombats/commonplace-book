@@ -1,10 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System;
 using MoonSharp.Interpreter;
 using System.Threading.Tasks;
-using DG.Tweening;
-using System.Linq;
 
 public class LuaCutsceneContext : LuaContext {
 

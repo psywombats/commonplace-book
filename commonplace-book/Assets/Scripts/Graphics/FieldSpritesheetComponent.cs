@@ -2,25 +2,10 @@
 
 public class FieldSpritesheetComponent : MonoBehaviour {
 
-    [SerializeField] public new string tag;
+    [SerializeField] public SpritesheetData spritesheet;
 
     public int StepCount => spritesheet == null ? 1 : spritesheet.StepCount;
     public string Name => spritesheet == null ? "" : spritesheet.name;
-
-    private SpritesheetData spritesheet = null;
-
-    public void Awake() {
-        SetByTag(tag);
-    }
-
-    public void SetByTag(string tag) {
-        this.tag = tag;
-        if (tag == null || tag == "") {
-            // ?
-        } else {
-            spritesheet = IndexDatabase.Instance().FieldSprites.GetData(tag).sprite;
-        }
-    }
 
     public Sprite GetFrame(OrthoDir dir, int step) {
         if (spritesheet == null) {

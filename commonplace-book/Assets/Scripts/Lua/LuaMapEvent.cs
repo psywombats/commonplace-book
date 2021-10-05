@@ -12,8 +12,8 @@ public class LuaMapEvent {
 
     public LuaMapEvent(MapEvent mapEvent) {
         this.mapEvent = mapEvent;
-        context = mapEvent.GetComponent<LuaContext>();
-        luaValue = context.CreateObject();
+        //context = mapEvent.GetComponent<LuaContext>();
+        //luaValue = context.CreateObject();
     }
 
     // meant to be called with the key/value of a lualike property on a Tiled object

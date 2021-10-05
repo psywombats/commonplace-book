@@ -3,8 +3,7 @@
 public class GeneratedMap : Map {
 
     [SerializeField] protected Vector2Int size;
-
-    private GeneratedTerrainMesh terrain;
+    [SerializeField] public GeneratedTerrainMesh terrain;
 
     private MeshFilter filter;
     public MeshFilter Filter => filter ?? (filter = GetComponent<MeshFilter>());

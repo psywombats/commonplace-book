@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(SpritesheetData))]
+[CustomEditor(typeof(GeneratedMap))]
 public class GeneratedMapEditor : Editor {
 
     private Vector2Int offset;

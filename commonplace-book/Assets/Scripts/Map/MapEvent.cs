@@ -2,7 +2,6 @@
 
 
 [RequireComponent(typeof(Dispatch))]
-[RequireComponent(typeof(LuaCutsceneContext))]
 [RequireComponent(typeof(RectTransform))]
 [DisallowMultipleComponent]
 public abstract class MapEvent : MonoBehaviour {

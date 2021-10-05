@@ -33,32 +33,8 @@ public class GeneratedTerrainMesh : MonoBehaviour {
 
     public void Resize(Vector2Int newSize) {
         var newHeightsSize = new Vector2Int(newSize.x + 1, newSize.y + 1);
-        var heightsSize = new Vector2Int(size.x + 1, size.y + 1);
-        float[] newHeights = new float[newHeightsSize.x * newHeightsSize.y];
-        Tile[] newTiles = new Tile[newSize.x * newSize.y];
-        for (int y = 0; y < (size.y < newSize.y ? size.y : newSize.y); y += 1) {
-            for (int x = 0; x < (size.x < newSize.x ? size.x : newSize.x); x += 1) {
-                newTiles[y * newSize.x + x] = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0));
-            }
-        }
-        for (int y = 0; y < (heightsSize.y < newHeightsSize.y ? heightsSize.y : newHeightsSize.y); y += 1) {
-            for (int x = 0; x < (heightsSize.x < newHeightsSize.x ? heightsSize.x : newHeightsSize.x); x += 1) {
-                newHeights[y * newHeightsSize.x + x] = heights[y * heightsSize.x + x];
-            }
-        }
-        for (int y = heightsSize.y; y < newHeightsSize.y; y += 1) {
-            for (int x = heightsSize.x; x < newHeightsSize.x; x += 1) {
-                newHeights[y * heightsSize.x + x] = 0.5f;
-            }
-        }
-
         tilemap.ClearAllTiles();
-        for (int y = 0; y < (size.y < newSize.y ? size.y : newSize.y); y += 1) {
-            for (int x = 0; x < (size.x < newSize.x ? size.x : newSize.x); x += 1) {
-                tilemap.SetTile(new Vector3Int(x, y, 0), newTiles[y * (size.x < newSize.x ? size.x : newSize.x) + x]);
-            }
-        }
-        heights = newHeights;
+        heights = new float[newHeightsSize.x * newHeightsSize.y];
         size = newSize;
     }
 
@@ -111,7 +87,7 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         if (mesh == null) {
             mesh = new Mesh();
 #if UNITY_EDITOR
-            UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/Resources/TacticsMaps/Meshes/" + gameObject.name + ".asset");
+            UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/Resources/Maps/Meshes/" + gameObject.name + ".asset");
 #endif
             filter.sharedMesh = mesh;
         }
@@ -124,10 +100,10 @@ public class GeneratedTerrainMesh : MonoBehaviour {
             for (int x = 0; x < size.x; x += 1) {
                 // top vertices
                 AddQuad(
-                    lowerLeft: new Vector3(x, HeightAt(x, z), z), 
-                    lowerRight: new Vector3(x + 1, HeightAt(x + 1, z), z),
-                    upperLeft: new Vector3(x, HeightAt(x, z + 1), z + 1),
-                    upperRight: new Vector3(x + 1, HeightAt(x + 1, z + 1), z + 1), 
+                    lowerLeft: new Vector3(x, HeightAtCorner(x, z), z), 
+                    lowerRight: new Vector3(x + 1, HeightAtCorner(x + 1, z), z),
+                    upperLeft: new Vector3(x, HeightAtCorner(x, z + 1), z + 1),
+                    upperRight: new Vector3(x + 1, HeightAtCorner(x + 1, z + 1), z + 1), 
                     tile: TileAt(x, z),
                     pos: new Vector2Int(x, z), 
                     normal: new Vector3(0, 1, 0));
@@ -140,14 +116,14 @@ public class GeneratedTerrainMesh : MonoBehaviour {
             mesh.vertices = vertices.ToArray();
             mesh.triangles = tris.ToArray();
             mesh.uv = uvs.ToArray();
-
+            
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
         }
     }
 
     private void AddQuad(Vector3 lowerLeft, Vector3 lowerRight, Vector3 upperRight, Vector3 upperLeft, Tile tile, Vector2Int pos, Vector3 normal) {
-        var quad = new GeneratedQuad(tris, vertices, uvs, lowerLeft, lowerRight, upperRight, upperLeft, tile, tileset, normal, pos);
+        var quad = new GeneratedQuad(tris, vertices, uvs, lowerLeft, lowerRight, upperRight, upperLeft, tile, normal, pos);
         quads[pos] = quad;
     }
 
