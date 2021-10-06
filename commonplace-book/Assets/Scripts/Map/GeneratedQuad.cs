@@ -4,9 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class GeneratedQuad {
 
-    // we occupy the six triangles in the tris array starting here
-    public int trisIndex;
-
     // we occupy the four vertices in the vert array starting here
     // can also index into the uvs array
     public int vertsIndex;
@@ -14,37 +11,33 @@ public class GeneratedQuad {
     public Vector3 normal;
     public Vector2Int pos;
 
+    public GeneratedTerrainMesh terrain;
     public Tile tile;
 
-    private Vector2[] ourUVs;
-
-    // creating a new quad mutates the tri/vert/uv arrays
-    public GeneratedQuad(List<int> tris, List<Vector3> vertices, List<Vector2> uvs,
+    private List<int> ourTris;
+    private List<Vector2> ourUVs;
+    private Vector3 lowerLeft, lowerRight, upperRight, upperLeft;
+    
+    public GeneratedQuad(GeneratedTerrainMesh terrain,
             Vector3 lowerLeft, Vector3 lowerRight, Vector3 upperRight, Vector3 upperLeft,
             Tile tile, Vector3 normal, Vector2Int pos) {
-        trisIndex = tris.Count;
-        vertsIndex = vertices.Count;
 
+        this.terrain = terrain;
         this.normal = normal;
         this.tile = tile;
         this.pos = pos;
 
-        int i = vertices.Count;
+        this.lowerLeft = lowerLeft;
+        this.lowerRight = lowerRight;
+        this.upperLeft = upperLeft;
+        this.upperRight = upperRight;
+
         Debug.Assert(tile != null);
         Vector2[] spriteUVs = tile.sprite.uv;
-        //if (normal.y == 0.0f) {
-        //    spriteUVs = MathHelper3D.AdjustZ(spriteUVs, tileset, lowerLeft.y, normal.x == 0.0f);
-        //}
+        ourTris = new List<int>();
 
         if (lowerRight.y != upperLeft.y) {
-            vertices.Add(lowerLeft);
-            vertices.Add(upperLeft);
-            vertices.Add(upperRight);
-            vertices.Add(lowerLeft);
-            vertices.Add(upperRight);
-            vertices.Add(lowerRight);
-
-            ourUVs = new Vector2[6] {
+            ourUVs = new List<Vector2>() {
                 spriteUVs[2],
                 spriteUVs[0],
                 spriteUVs[1],
@@ -53,14 +46,7 @@ public class GeneratedQuad {
                 spriteUVs[3],
             };
         } else {
-            vertices.Add(lowerLeft);
-            vertices.Add(upperLeft);
-            vertices.Add(lowerRight);
-            vertices.Add(upperLeft);
-            vertices.Add(upperRight);
-            vertices.Add(lowerRight);
-
-            ourUVs = new Vector2[6] {
+            ourUVs = new List<Vector2>() {
                 spriteUVs[2],
                 spriteUVs[0],
                 spriteUVs[3],
@@ -69,35 +55,37 @@ public class GeneratedQuad {
                 spriteUVs[3],
             };
         }
-       
-
-        uvs.AddRange(ourUVs);
-
-        tris.Add(i);
-        tris.Add(i + 1);
-        tris.Add(i + 2);
-        tris.Add(i + 3);
-        tris.Add(i + 4);
-        tris.Add(i + 5);
     }
 
-    public void UpdateTile(Tile tile, Tilemap tileset, float lowerLeftHeight) {
-        Vector2[] spriteUVs = tile.sprite.uv;
-        if (normal.y == 0.0f) {
-            spriteUVs = MathHelper3D.AdjustZ(spriteUVs, tileset, lowerLeftHeight - 0.5f, normal.x == 0.0f);
+    public void CopyUVsToMesh() {
+        terrain.AddUVs(ourUVs);
+    }
+
+    public void CopyVerticesToMesh(bool knit) {
+        ourTris.Clear();
+        if (lowerRight.y != upperLeft.y) {
+            AddVertex(lowerLeft, knit);
+            AddVertex(upperLeft, knit);
+            AddVertex(upperRight, knit);
+            AddVertex(lowerLeft, knit);
+            AddVertex(upperRight, knit);
+            AddVertex(lowerRight, knit);
+        } else {
+            AddVertex(lowerLeft, knit);
+            AddVertex(upperLeft, knit);
+            AddVertex(lowerRight, knit);
+            AddVertex(upperLeft, knit);
+            AddVertex(upperRight, knit);
+            AddVertex(lowerRight, knit);
         }
-
-        ourUVs = new Vector2[4] {
-            spriteUVs[2],
-            spriteUVs[0],
-            spriteUVs[3],
-            spriteUVs[1],
-        };
+        terrain.AddTris(ourTris);
     }
 
-    public void CopyUVs(Vector2[] uvs) {
-        for (int i = 0; i < 4; i += 1) {
-            uvs[vertsIndex + i] = ourUVs[i];
+    private void AddVertex(Vector3 pos, bool knit) {
+        if (knit) {
+            ourTris.Add(terrain.GetOrAddVertex(pos));
+        } else {
+            ourTris.Add(terrain.AddVertex(pos));
         }
     }
 }

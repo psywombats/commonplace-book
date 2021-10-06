@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor.SceneManagement;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MapGenerator {
 
@@ -25,12 +21,13 @@ public class MapGenerator {
         var terrain = map.terrain;
 
         terrain.Resize(map.Size);
+        terrain.knitVertices = true;
         for (var x = 0; x < cornerCount.x; x += 1) {
             for (var y = 0; y < cornerCount.y; y += 1) {
                 var value = Mathf.PerlinNoise(
                     seed.x + offset.x + x / PerlinScale.x,
                     seed.y + offset.y + y / PerlinScale.y);
-                value = (int)(value * 5) / 5f;
+                //value = (int)(value * 5) / 5f;
                 terrain.SetHeight(x, y, value * 5);
             }
         }

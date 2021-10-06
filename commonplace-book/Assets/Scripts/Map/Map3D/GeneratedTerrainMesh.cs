@@ -11,9 +11,11 @@ public class GeneratedTerrainMesh : MonoBehaviour {
 
     [HideInInspector] public Vector2Int size;
     [HideInInspector] public float[] heights;
-
+    [HideInInspector] public bool knitVertices;
+    [Space]
     [SerializeField] public Tile defaultTopTile;
     [SerializeField] public Tilemap tileset;
+    
 
     private Tilemap _tilemap;
     public Tilemap tilemap {
@@ -23,8 +25,7 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         }
     }
 
-    // tortured data structure
-    // index by pos -> normal ->
+    private Dictionary<Vector2Int, int> cornerPosToVertexIndex;
     private Dictionary<Vector2Int, GeneratedQuad> quads;
     private List<Vector3> vertices;
     private List<Vector2> uvs;
@@ -36,6 +37,7 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         tilemap.ClearAllTiles();
         heights = new float[newHeightsSize.x * newHeightsSize.y];
         size = newSize;
+        cornerPosToVertexIndex = new Dictionary<Vector2Int, int>();
     }
 
     public float GetHeightAt(Vector2Int pos) {
@@ -71,6 +73,31 @@ public class GeneratedTerrainMesh : MonoBehaviour {
 
     public void SetTile(int x, int y, Tile tile) {
         tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+    }
+
+    public int GetOrAddVertex(Vector3 pos) {
+        var cornerPos = new Vector2Int((int)pos.x, (int)pos.z);
+        if (!cornerPosToVertexIndex.ContainsKey(cornerPos)) {
+            var index = AddVertex(pos);
+            if (knitVertices) {
+                cornerPosToVertexIndex.Add(cornerPos, index);
+            }
+            return index;
+        } else {
+            return cornerPosToVertexIndex[cornerPos];
+        }
+    }
+    public int AddVertex(Vector3 pos) {
+        vertices.Add(pos);
+        return vertices.Count - 1;
+    }
+
+    public void AddUVs(List<Vector2> uvs) {
+        this.uvs.AddRange(uvs);
+    }
+
+    public void AddTris(List<int> tris) {
+        this.tris.AddRange(tris);
     }
 
     public void Rebuild(bool regenMesh) {
@@ -115,25 +142,47 @@ public class GeneratedTerrainMesh : MonoBehaviour {
 
             mesh.vertices = vertices.ToArray();
             mesh.triangles = tris.ToArray();
-            mesh.uv = uvs.ToArray();
             
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
+
+            if (knitVertices) {
+                // we need to keep the normals but unknit the vertices to use uvs
+                var normals = mesh.normals;
+                var normalsByPos = new Dictionary<Vector2Int, Vector3>();
+                for (var i = 0; i < mesh.normals.Length; i += 1) {
+                    var vertex = vertices[i];
+                    normalsByPos.Add(new Vector2Int((int)vertex.x, (int)vertex.z), normals[i]);
+                }
+
+                vertices.Clear();
+                tris.Clear();
+                cornerPosToVertexIndex.Clear();
+                foreach (var quad in quads.Values) {
+                    quad.CopyVerticesToMesh(knit: false);
+                }
+                mesh.vertices = vertices.ToArray();
+                mesh.triangles = tris.ToArray();
+
+                var newNormals = new Vector3[mesh.vertices.Length];
+                for (var i = 0; i < vertices.Count; i += 1) {
+                    var vertex = vertices[i];
+                    newNormals[i] = normalsByPos[new Vector2Int((int)vertex.x, (int)vertex.z)];
+                }
+                mesh.SetNormals(newNormals);
+            }
         }
+
+        uvs.Clear();
+        foreach (var quad in quads.Values) {
+            quad.CopyUVsToMesh();
+        }
+        mesh.uv = uvs.ToArray();
     }
 
     private void AddQuad(Vector3 lowerLeft, Vector3 lowerRight, Vector3 upperRight, Vector3 upperLeft, Tile tile, Vector2Int pos, Vector3 normal) {
-        var quad = new GeneratedQuad(tris, vertices, uvs, lowerLeft, lowerRight, upperRight, upperLeft, tile, normal, pos);
+        var quad = new GeneratedQuad(this, lowerLeft, lowerRight, upperRight, upperLeft, tile, normal, pos);
         quads[pos] = quad;
-    }
-
-    private void RepaintMesh() {
-        Vector2[] uvArray = new Vector2[GetComponent<MeshFilter>().sharedMesh.uv.Length];
-        foreach (var quad in quads.Values) {
-            quad.CopyUVs(uvArray);
-        }
-
-        GetComponent<MeshFilter>().sharedMesh.uv = uvArray;
-        uvs = new List<Vector2>(uvArray);
+        quad.CopyVerticesToMesh(knitVertices);
     }
 }
