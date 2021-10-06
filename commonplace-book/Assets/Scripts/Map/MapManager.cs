@@ -9,6 +9,7 @@ public class MapManager : SingletonBehavior {
     public Map ActiveMap { get; set; }
     public AvatarEvent Avatar { get; set; }
     public MapGenerator Generator { get; private set; } = new MapGenerator();
+    public LuaCutsceneContext Context { get; private set; } = new LuaCutsceneContext();
 
     private MapCamera _camera;
     public new MapCamera camera {

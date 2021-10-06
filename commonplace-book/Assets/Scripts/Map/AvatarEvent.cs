@@ -4,7 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharaEvent))]
 public class AvatarEvent : MonoBehaviour, IInputListener {
 
-    private bool wantsToTrack;
+    [SerializeField] private float tilesPerSecond;
+    [SerializeField] private float degreesPerSecond;
 
     private int pauseCount;
     public bool InputPaused {
@@ -30,7 +31,11 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     public virtual void Update() {
-        wantsToTrack = false;
+        var height = Event.Map.GetHeightAt(Event.positionPx);
+        Event.transform.localPosition = new Vector3(
+            Event.transform.localPosition.x,
+            height,
+            Event.transform.localPosition.z);
     }
 
     public bool OnCommand(InputManager.Command command, InputManager.Event eventType) {
@@ -81,10 +86,6 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
         pauseCount -= 1;
     }
 
-    public bool WantsToTrack() {
-        return wantsToTrack;
-    }
-
     private void Interact() {
         Vector2Int target = GetComponent<MapEvent>().position + VectorForDir(GetComponent<CharaEvent>().Facing);
         List<MapEvent> targetEvents = GetComponent<MapEvent>().Map.GetEventsAt(target);
@@ -106,6 +107,20 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     private bool TryStep(OrthoDir dir) {
+        if (dir == OrthoDir.North || dir == OrthoDir.South) {
+            var speed = tilesPerSecond;
+            if (dir == OrthoDir.South) {
+                speed *= .8f;
+            }
+            Event.transform.localPosition = new Vector3(
+                Event.transform.localPosition.x + Mathf.Sin(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * tilesPerSecond * Time.deltaTime,
+                Event.transform.localPosition.y,
+                Event.transform.localPosition.z + Mathf.Cos(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * tilesPerSecond * Time.deltaTime);
+        } else {
+            var sign = dir == OrthoDir.East ? 1 : -1;
+            Event.transform.Rotate(Vector3.up, degreesPerSecond * sign * Time.deltaTime);
+
+        }
         return true;
     }
 

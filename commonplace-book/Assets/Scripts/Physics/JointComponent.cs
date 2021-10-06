@@ -14,6 +14,10 @@ public class JointComponent : MonoBehaviour {
     }
 
     protected void Update() {
+        if (transform.position.y < WaterController.Level) {
+            return;
+        }
+
         AimForRot(origRotation, springiness);
 
         var force = WindController.Instance.Force;

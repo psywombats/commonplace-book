@@ -40,26 +40,28 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         cornerPosToVertexIndex = new Dictionary<Vector2Int, int>();
     }
 
-    public float GetHeightAt(Vector2Int pos) {
-        return HeightAt(pos.x, pos.y);
-    }
-    public float HeightAt(int x, int y) {
-        if (x < 0 || x >= size.x || y < 0 || y >= size.y) {
-            return 0;
-        } else {
-            var h1 = HeightAtCorner(x, y);
-            var h2 = HeightAtCorner(x+1, y);
-            var h3 = HeightAtCorner(x, y+1);
-            var h4 = HeightAtCorner(x+1, y+1);
-            return (h1 + h2 + h3 + h4) / 4f;
-        }
+    public float GetHeightAt(Vector2 pos) {
+        var x1 = Mathf.FloorToInt(pos.x);
+        var x2 = Mathf.CeilToInt(pos.x);
+        var y1 = Mathf.FloorToInt(pos.y);
+        var y2 = Mathf.CeilToInt(pos.y);
+
+        var h1 = HeightAtCorner(x1, y1);
+        var h2 = HeightAtCorner(x1, y2);
+        var ha = Mathf.Lerp(h1, h2, pos.y - y1);
+
+        var h3 = HeightAtCorner(x2, y1);
+        var h4 = HeightAtCorner(x2, y2);
+        var hb = Mathf.Lerp(h3, h4, pos.y - y1);
+
+        return Mathf.Lerp(ha, hb, pos.x - x1);
     }
     private float HeightAtCorner(int x, int y) {
         return heights[y * (size.x + 1) + x];
     }
 
     public void SetHeight(int cornerX, int cornerY, float height) {
-        heights[cornerX * (size.x + 1) + cornerY] = height;
+        heights[cornerY * (size.x + 1) + cornerX] = height;
     }
 
     public Tile TileAt(int x, int y) {

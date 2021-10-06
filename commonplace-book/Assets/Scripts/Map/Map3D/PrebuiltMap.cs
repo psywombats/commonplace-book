@@ -12,7 +12,7 @@ public class PrebuiltMap : Map {
 
     public override Vector2Int Size => Terrain.size;
 
-    public override float GetHeightAt(Vector2Int loc) {
-        return Terrain.HeightAt(loc);
+    public override float GetHeightAt(Vector2 loc) {
+        return Terrain.HeightAt(new Vector2Int((int)loc.x, (int)loc.y));
     }
 }

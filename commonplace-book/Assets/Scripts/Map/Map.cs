@@ -28,7 +28,7 @@ public abstract class Map : MonoBehaviour {
         Global.Instance().Maps.ActiveMap = this;
     }
 
-    public abstract float GetHeightAt(Vector2Int loc);
+    public abstract float GetHeightAt(Vector2 loc);
 
     public Vector3Int TileToTilemapCoords(Vector2Int loc) {
         return TileToTilemapCoords(loc.x, loc.y);
