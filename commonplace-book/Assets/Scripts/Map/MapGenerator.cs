@@ -5,8 +5,7 @@ public class MapGenerator {
 
     // this many tiles make up a 1*1 chunk of perlin noise
     private Vector2 PerlinScale = new Vector2(10, 10);
-
-    private Vector2 seed = new Vector2(0, 0);
+    
     private Vector2Int offset;
 
     // per render session
@@ -17,12 +16,16 @@ public class MapGenerator {
 
     }
 
-    public void Populate(GeneratedMap map, Vector2Int offset) {
+    public GeneratedTerrainMesh GenerateMesh(GeneratedMap map, Vector2Int offset, int seed = 0) {
         this.offset = offset;
-        //seed = new Vector2(Random.Range(0, 10000), Random.Range(0, 10000));
         var size = map.Size;
         var cornerCount = new Vector2Int(size.x + 1, size.y + 1);
-        var terrain = map.terrain;
+
+        Random.InitState(seed);
+
+        var terrain = GeneratedTerrainMesh.Instantiate();
+        terrain.transform.SetParent(map.transform);
+        terrain.transform.localPosition = new Vector3(offset.x, 0, offset.y);
 
         terrain.Resize(map.Size);
         terrain.knitVertices = true;
@@ -34,15 +37,16 @@ public class MapGenerator {
         terrain.Rebuild(regenMesh: true);
 
         var plantCount = size.x * size.y * .7f;
-        foreach (var plant in map.plants) {
-            plant.gameObject.SetActive(false);
-        }
         for (var i = 0; i < plantCount; i += 1) {
-            if (i >= map.plants.Count) {
-                map.plants.Add(PlantProp.Instantiate());
+            if (map.plantPool.Count == 0) {
+                terrain.Plants.Add(PlantProp.Instantiate());
+            } else {
+                var p = map.plantPool[0];
+                map.plantPool.Remove(p);
+                terrain.Plants.Add(p);
             }
-            var plant = map.plants[i];
-            plant.transform.SetParent(map.plantHolder.transform);
+            var plant = terrain.Plants[i];
+            plant.transform.SetParent(terrain.plantHolder.transform);
 
             for (var attempt = 0; attempt < 10; attempt += 1) {
                 var pos = new Vector2(Random.Range(0f, size.x), Random.Range(0f, size.y));
@@ -61,14 +65,15 @@ public class MapGenerator {
                 plant.gameObject.SetActive(true);
                 break;
             }
-            
         }
+
+        return terrain;
     }
 
     private float GetHeightAt(Vector2Int pos) {
         var value = Mathf.PerlinNoise(
-            (seed.x + offset.x + pos.x) / PerlinScale.x,
-            (seed.y + offset.y + pos.y) / PerlinScale.y);
+            (offset.x + pos.x) / PerlinScale.x,
+            (offset.y + pos.y) / PerlinScale.y);
         return value * 5;
     }
 }

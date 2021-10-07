@@ -15,7 +15,7 @@ public class GeneratedMapEditor : Editor {
 
         if (GUILayout.Button("Generate")) {
             var generator = new MapGenerator();
-            generator.Populate(map, offset);
+            generator.GenerateMesh(map, offset);
         }
     }
 }

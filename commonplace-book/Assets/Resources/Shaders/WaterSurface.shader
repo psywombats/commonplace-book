@@ -2,7 +2,7 @@ Shader "Commonplace/WaterSurface"
 {
 	Properties
 	{
-        _Var("Var", Range(-1,1)) = 0.5
+        _Var("Var", Range(0, 15)) = 0.5
 	}
 
 	SubShader
@@ -53,8 +53,15 @@ Shader "Commonplace/WaterSurface"
                 float alpha = saturate(smoothstep(0, 2, deep) + .8);
                 
                 float r = 0;
-                if (deep < .05) r = 1;
-                
+                float rt = smoothstep(5, 6, _Var % 6);
+                if (rt > 0) {
+                    float rippleLow = rt * .5;
+                    float rippleHigh = rt * 1;
+                    if (deep > rippleLow && deep < rippleHigh) {
+                        r = 1 - rt;
+                    }   
+                }
+
                 float4 c = float4(r, r, r, alpha);
                 o.Albedo = c.rgb * c.a;
                 o.Alpha = c.a;

@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(Tilemap))]
-[RequireComponent(typeof(GeneratedMap))]
 public class GeneratedTerrainMesh : MonoBehaviour {
 
     [HideInInspector] public Vector2Int size;
@@ -15,7 +14,10 @@ public class GeneratedTerrainMesh : MonoBehaviour {
     [Space]
     [SerializeField] public Tile defaultTopTile;
     [SerializeField] public Tilemap tileset;
-    
+    [Space]
+    [SerializeField] public GameObject plantHolder;
+
+    private const string PrefabPath = "Prefabs/GeneratedTerrainMesh";
 
     private Tilemap _tilemap;
     public Tilemap tilemap {
@@ -25,12 +27,27 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         }
     }
 
+    // misc that shouldn't be here
+    public List<PlantProp> Plants { get; set; } = new List<PlantProp>();
+
+    // geometry
     private Dictionary<Vector2Int, int> cornerPosToVertexIndex;
     private Dictionary<Vector2Int, GeneratedQuad> quads;
     private List<Vector3> vertices;
     private List<Vector2> uvs;
     private List<int> tris;
 
+
+    public static GeneratedTerrainMesh Instantiate() {
+        return Instantiate(Resources.Load<GeneratedTerrainMesh>(PrefabPath));
+    }
+
+    public void Dispose() {
+        MeshFilter filter = GetComponent<MeshFilter>();
+        Destroy(filter.mesh);
+
+        Destroy(gameObject);
+    }
 
     public void Resize(Vector2Int newSize) {
         var newHeightsSize = new Vector2Int(newSize.x + 1, newSize.y + 1);
@@ -105,9 +122,11 @@ public class GeneratedTerrainMesh : MonoBehaviour {
     public void Rebuild(bool regenMesh) {
 
 #if UNITY_EDITOR
-        PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(gameObject);
-        if (prefabStage != null) {
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(prefabStage.scene);
+        if (!Application.isPlaying) {
+            PrefabStage prefabStage = PrefabStageUtility.GetPrefabStage(gameObject);
+            if (prefabStage != null) {
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(prefabStage.scene);
+            }
         }
 #endif
 
@@ -116,7 +135,9 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         if (mesh == null) {
             mesh = new Mesh();
 #if UNITY_EDITOR
-            UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/Resources/Maps/Meshes/" + gameObject.name + ".asset");
+            if (!Application.isPlaying) {
+                UnityEditor.AssetDatabase.CreateAsset(mesh, "Assets/Resources/Maps/Meshes/" + gameObject.name + ".asset");
+            }
 #endif
             filter.sharedMesh = mesh;
         }

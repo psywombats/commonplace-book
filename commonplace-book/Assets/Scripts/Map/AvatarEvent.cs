@@ -31,7 +31,7 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     public virtual void Update() {
-        var height = Event.Map.GetHeightAt(Event.positionPx);
+        var height = Event.Map.GetHeightAt(new Vector2(transform.localPosition.x, transform.localPosition.z));
         Event.transform.localPosition = new Vector3(
             Event.transform.localPosition.x,
             height,
@@ -109,13 +109,21 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     private bool TryStep(OrthoDir dir) {
         if (dir == OrthoDir.North || dir == OrthoDir.South) {
             var speed = tilesPerSecond;
+            var underwater = WaterController.Level - transform.localPosition.y;
+            if (underwater > 0) {
+                var maxUnder = 1.5f;
+                var s = 1f - (underwater / maxUnder);
+                speed *= s;
+                if (speed < 0) speed = 0;
+                if (speed < .2f && dir == OrthoDir.South) speed = .2f;
+            }
             if (dir == OrthoDir.South) {
-                speed *= .8f;
+                speed *= -.7f;
             }
             Event.transform.localPosition = new Vector3(
-                Event.transform.localPosition.x + Mathf.Sin(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * tilesPerSecond * Time.deltaTime,
+                Event.transform.localPosition.x + Mathf.Sin(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * speed * Time.deltaTime,
                 Event.transform.localPosition.y,
-                Event.transform.localPosition.z + Mathf.Cos(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * tilesPerSecond * Time.deltaTime);
+                Event.transform.localPosition.z + Mathf.Cos(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * speed * Time.deltaTime);
         } else {
             var sign = dir == OrthoDir.East ? 1 : -1;
             Event.transform.Rotate(Vector3.up, degreesPerSecond * sign * Time.deltaTime);
