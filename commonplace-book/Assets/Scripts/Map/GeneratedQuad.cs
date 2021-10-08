@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class GeneratedQuad {
@@ -14,8 +13,8 @@ public class GeneratedQuad {
     public GeneratedTerrainMesh terrain;
     public Tile tile;
 
-    private List<int> ourTris;
-    private List<Vector2> ourUVs;
+    private int[] ourTris;
+    private Vector2[] ourUVs;
     private Vector3 lowerLeft, lowerRight, upperRight, upperLeft;
     
     public GeneratedQuad(GeneratedTerrainMesh terrain,
@@ -34,10 +33,10 @@ public class GeneratedQuad {
 
         Debug.Assert(tile != null);
         Vector2[] spriteUVs = tile.sprite.uv;
-        ourTris = new List<int>();
+        ourTris = new int[6];
 
         if (lowerRight.y != upperLeft.y) {
-            ourUVs = new List<Vector2>() {
+            ourUVs = new Vector2[] {
                 spriteUVs[2],
                 spriteUVs[0],
                 spriteUVs[1],
@@ -46,7 +45,7 @@ public class GeneratedQuad {
                 spriteUVs[3],
             };
         } else {
-            ourUVs = new List<Vector2>() {
+            ourUVs = new Vector2[] {
                 spriteUVs[2],
                 spriteUVs[0],
                 spriteUVs[3],
@@ -62,30 +61,29 @@ public class GeneratedQuad {
     }
 
     public void CopyVerticesToMesh(bool knit) {
-        ourTris.Clear();
         if (lowerRight.y != upperLeft.y) {
-            AddVertex(lowerLeft, knit);
-            AddVertex(upperLeft, knit);
-            AddVertex(upperRight, knit);
-            AddVertex(lowerLeft, knit);
-            AddVertex(upperRight, knit);
-            AddVertex(lowerRight, knit);
+            AddVertex(lowerLeft, knit, 0);
+            AddVertex(upperLeft, knit, 1);
+            AddVertex(upperRight, knit, 2);
+            AddVertex(lowerLeft, knit, 3);
+            AddVertex(upperRight, knit, 4);
+            AddVertex(lowerRight, knit, 5);
         } else {
-            AddVertex(lowerLeft, knit);
-            AddVertex(upperLeft, knit);
-            AddVertex(lowerRight, knit);
-            AddVertex(upperLeft, knit);
-            AddVertex(upperRight, knit);
-            AddVertex(lowerRight, knit);
+            AddVertex(lowerLeft, knit, 0);
+            AddVertex(upperLeft, knit, 1);
+            AddVertex(lowerRight, knit, 2);
+            AddVertex(upperLeft, knit, 3);
+            AddVertex(upperRight, knit, 4);
+            AddVertex(lowerRight, knit, 5);
         }
         terrain.AddTris(ourTris);
     }
 
-    private void AddVertex(Vector3 pos, bool knit) {
+    private void AddVertex(Vector3 pos, bool knit, int i) {
         if (knit) {
-            ourTris.Add(terrain.GetOrAddVertex(pos));
+            ourTris[i] = terrain.GetOrAddVertex(pos);
         } else {
-            ourTris.Add(terrain.AddVertex(pos));
+            ourTris[i] = terrain.AddVertex(pos);
         }
     }
 }

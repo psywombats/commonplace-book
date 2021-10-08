@@ -16,6 +16,7 @@ public class GeneratedTerrainMesh : MonoBehaviour {
     [SerializeField] public Tilemap tileset;
     [Space]
     [SerializeField] public GameObject plantHolder;
+    [SerializeField] public GameObject waterPlane;
 
     private const string PrefabPath = "Prefabs/GeneratedTerrainMesh";
 
@@ -55,6 +56,7 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         heights = new float[newHeightsSize.x * newHeightsSize.y];
         size = newSize;
         cornerPosToVertexIndex = new Dictionary<Vector2Int, int>();
+        waterPlane.transform.localScale = new Vector3(newSize.x, 1f, newSize.y);
     }
 
     public float GetHeightAt(Vector2 pos) {
@@ -111,11 +113,11 @@ public class GeneratedTerrainMesh : MonoBehaviour {
         return vertices.Count - 1;
     }
 
-    public void AddUVs(List<Vector2> uvs) {
+    public void AddUVs(Vector2[] uvs) {
         this.uvs.AddRange(uvs);
     }
 
-    public void AddTris(List<int> tris) {
+    public void AddTris(int[] tris) {
         this.tris.AddRange(tris);
     }
 

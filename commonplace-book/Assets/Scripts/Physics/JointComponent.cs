@@ -6,30 +6,58 @@ public class JointComponent : MonoBehaviour {
     [SerializeField] private float damping = 40f;
     [SerializeField] private float springiness = 10f;
 
+    private bool frameflip;
     private Quaternion origRotation;
     private Vector3 angularVelocity;
 
+    private AvatarEvent avatar;
+    private AvatarEvent Avatar {
+        get {
+            if (avatar == null) {
+                avatar = Global.Instance().Maps.Avatar;
+            }
+            return avatar;
+        }
+    }
+
     protected void Start() {
         origRotation = transform.rotation;
+        damping = damping * Random.Range(.8f, 1f);
+        springiness = springiness * Random.Range(.8f, 1f);
     }
 
     protected void Update() {
-        if (transform.position.y < WaterController.Level) {
+        frameflip = !frameflip;
+        if (frameflip) {
             return;
+        }
+        if (transform.position.y < WaterController.Level) {
+            enabled = false;
+        }
+
+        transform.Rotate(angularVelocity * Time.deltaTime);
+
+        if (Avatar != null) {
+            var avPoss = Avatar.transform.position;
+            if (Vector3.Angle(transform.forward, transform.position - avPoss) > 70) {
+                return;
+            }
+            var sqDist = (Avatar.transform.position - transform.position).sqrMagnitude;
+            if (sqDist > 40 * 40) {
+                return;
+            }
         }
 
         AimForRot(origRotation, springiness);
 
         var force = WindController.Instance.Force;
         var target = Quaternion.FromToRotation(neutralDirection, force);
-        AimForRot(target, force.magnitude);
+        AimForRot(target, force.magnitude * 2f);
 
         angularVelocity = Vector3.MoveTowards(angularVelocity, Vector3.zero, damping * Time.deltaTime);
         if (angularVelocity.magnitude > 90) {
             angularVelocity = angularVelocity.normalized * 90;
         }
-
-        transform.Rotate(angularVelocity * Time.deltaTime);
     }
 
     protected void AimForRot(Quaternion target, float mag) {

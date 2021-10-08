@@ -9,6 +9,7 @@ public class GeneratedMap : Map {
 
     private MapGenerator generator = new MapGenerator();
     private Dictionary<Vector2Int, GeneratedTerrainMesh> meshes = new Dictionary<Vector2Int, GeneratedTerrainMesh>();
+    private List<Vector2Int> listKeysByAccess = new List<Vector2Int>();
     public List<PlantProp> plantPool { get; private set; } = new List<PlantProp>();
 
     // this is not right at all
@@ -29,31 +30,20 @@ public class GeneratedMap : Map {
         GetOrGenerateMesh(Vector2Int.zero);
     }
 
+    public void EnsureGenerationAround(Vector3 pos3) {
+        var pos = new Vector2(pos3.x, pos3.z);
+        var r = .49f;
+        GetMeshForPos(pos + new Vector2(-chunkSize.x * r, -chunkSize.y * r));
+        GetMeshForPos(pos + new Vector2(chunkSize.x * r, -chunkSize.y * r));
+        GetMeshForPos(pos + new Vector2(-chunkSize.x * r, chunkSize.y * r));
+        GetMeshForPos(pos + new Vector2(chunkSize.x * r, chunkSize.y * r));
+    }
+
     protected void Update() {
         var avatar = Global.Instance().Maps.Avatar;
-        if (avatar != null) {
-            var pos3 = avatar.Event.positionPx;
-            var pos = new Vector2(pos3.x, pos3.z);
-            var r = .75f;
-            GetMeshForPos(pos + new Vector2(-chunkSize.x * r, -chunkSize.y * r));
-            GetMeshForPos(pos + new Vector2(chunkSize.x * r, -chunkSize.y * r));
-            GetMeshForPos(pos + new Vector2(-chunkSize.x * r, chunkSize.y * r));
-            GetMeshForPos(pos + new Vector2(chunkSize.x * r, chunkSize.y * r));
-
-            while (meshes.Count > 5) {
-                GeneratedTerrainMesh farthest = null;
-                Vector2Int farthestOrigin = Vector2Int.zero;
-                var farthestDist = 0f;
-                foreach (var pair in meshes) {
-                    var dist = Vector2.Distance(pos, new Vector2(pair.Key.x + chunkSize.x / 2f, pair.Key.y + chunkSize.y / 2f));
-                    if (farthest == null || dist > farthestDist) {
-                        farthestDist = dist;
-                        farthest = pair.Value;
-                        farthestOrigin = pair.Key;
-                    }
-                }
-                RemoveMesh(farthestOrigin);
-            }
+        if (meshes.Count > 11) {
+            var oldest = listKeysByAccess[0];
+            RemoveMesh(oldest);
         }
     }
 
@@ -69,6 +59,7 @@ public class GeneratedMap : Map {
 
         mesh.Dispose();
         meshes.Remove(origin);
+        listKeysByAccess.Remove(origin);
     }
 
     private Vector2Int GetOriginForPos(Vector2 pos) {
@@ -81,6 +72,8 @@ public class GeneratedMap : Map {
     private GeneratedTerrainMesh GetMeshForPos(Vector2 pos) {
         var origin = GetOriginForPos(pos);
         var mesh = GetOrGenerateMesh(origin);
+        listKeysByAccess.Remove(origin);
+        listKeysByAccess.Add(origin);
         return mesh;
     }
 
