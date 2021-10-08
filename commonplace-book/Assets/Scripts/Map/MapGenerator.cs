@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator {
@@ -71,7 +70,7 @@ public class MapGenerator {
                     continue;
                 }
 
-                if (height + Random.Range(-.2f, .2f) + plant.Height < WaterController.Level) {
+                if (height + Random.Range(0, .3f) + plant.Height < WaterController.Level) {
                     continue;
                 }
 

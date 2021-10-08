@@ -57,5 +57,12 @@ public class PlantProp : MonoBehaviour {
         }
 
         transform.localEulerAngles = new Vector3(0, Random.Range(0, 360f), 0f);
+
+        foreach (var joint in GetComponentsInChildren<JointComponent>(includeInactive: true)) {
+            var totalScale = scale * heightScale;
+            var lowscale = minScale * minHeightScale;
+            var hiscale = maxScale * maxHeightScale;
+            joint.OnReposition(totalScale > lowscale + .3f * (hiscale - lowscale));
+        }
     }
 }

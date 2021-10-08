@@ -6,7 +6,8 @@ public class JointComponent : MonoBehaviour {
     [SerializeField] private float damping = 40f;
     [SerializeField] private float springiness = 10f;
 
-    private bool frameflip;
+    private int frameflip;
+    private float windProj;
     private Quaternion origRotation;
     private Vector3 angularVelocity;
 
@@ -20,22 +21,17 @@ public class JointComponent : MonoBehaviour {
         }
     }
 
-    protected void Start() {
-        origRotation = transform.rotation;
-        damping = damping * Random.Range(.8f, 1f);
-        springiness = springiness * Random.Range(.8f, 1f);
-    }
-
     protected void Update() {
-        frameflip = !frameflip;
-        if (frameflip) {
-            return;
-        }
         if (transform.position.y < WaterController.Level) {
             enabled = false;
         }
 
         transform.Rotate(angularVelocity * Time.deltaTime);
+
+        frameflip = (frameflip + 1) % 3;
+        if (frameflip != 0) {
+            return;
+        }
 
         if (Avatar != null) {
             var avPoss = Avatar.transform.position;
@@ -43,20 +39,30 @@ public class JointComponent : MonoBehaviour {
                 return;
             }
             var sqDist = (Avatar.transform.position - transform.position).sqrMagnitude;
-            if (sqDist > 40 * 40) {
+            if (sqDist > 12 * 12) {
                 return;
             }
         }
 
         AimForRot(origRotation, springiness);
 
-        var force = WindController.Instance.Force;
+        var force = WindController.Instance.GetForce(windProj);
         var target = Quaternion.FromToRotation(neutralDirection, force);
         AimForRot(target, force.magnitude * 2f);
 
         angularVelocity = Vector3.MoveTowards(angularVelocity, Vector3.zero, damping * Time.deltaTime);
         if (angularVelocity.magnitude > 90) {
             angularVelocity = angularVelocity.normalized * 90;
+        }
+    }
+
+    public void OnReposition(bool enable) {
+        enabled = enable;
+        if (enable) {
+            origRotation = transform.rotation;
+            damping = damping * Random.Range(.8f, 1f);
+            springiness = springiness * Random.Range(.8f, 1f);
+            windProj = WindController.Instance.GetCross(transform.position);
         }
     }
 
