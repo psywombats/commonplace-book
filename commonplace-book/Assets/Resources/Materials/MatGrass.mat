@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MatGrass
-  m_Shader: {fileID: 4800000, guid: db336281b63db914ea69cedb1fa6b4d0, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2c62ca311a394f84a8688e15b591c0a3, type: 3}
   m_ShaderKeywords: PIXELSNAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
