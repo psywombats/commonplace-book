@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FMODUnity;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharaEvent))]
@@ -7,6 +8,7 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     [SerializeField] private float tilesPerSecond = 8f;
     [SerializeField] private float degreesPerSecond = 70f;
     [Space]
+    [SerializeField] private StudioEventEmitter stepEmitter = null;
     //[SerializeField] private SphereCollider collider = null;
 
     private int pauseCount;
@@ -25,9 +27,10 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
             return parent;
         }
     }
-
+    
     private const float WalkFrameRamp = 1f;
     private float walkFrames;
+    private float lastWalkFrames;
 
     public void Start() {
         Global.Instance().Maps.Avatar = this;
@@ -37,6 +40,7 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
 
     public virtual void Update() {
         walkFrames -= Time.deltaTime / 2f;
+        if (walkFrames > WalkFrameRamp) walkFrames = WalkFrameRamp;
         if (walkFrames < 0) walkFrames = 0;
         var height = Event.Map.GetHeightAt(new Vector2(transform.localPosition.x, transform.localPosition.z));
         Event.transform.localPosition = new Vector3(
@@ -44,17 +48,25 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
             height,
             Event.transform.localPosition.z);
 
-        if (walkFrames > 0) {
+        if (walkFrames >= lastWalkFrames && walkFrames > 0) {
             var colliding = Physics.OverlapSphere(transform.position, 1f);
             var walkRatio = walkFrames / WalkFrameRamp;
             foreach (var collider in colliding) {
+                BushAudioComponent.GetForTarget(collider.gameObject).Emit();
                 foreach (var joint in collider.transform.parent.GetComponentsInChildren<JointComponent>()) {
                     joint.ApplyForce((joint.transform.position - transform.position) * walkRatio);
                 }
             }
         }
+        lastWalkFrames = walkFrames;
 
-        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Height", transform.position.y);
+        RuntimeManager.StudioSystem.setParameterByName("PlayerSpeed", walkFrames / WalkFrameRamp);
+        RuntimeManager.StudioSystem.setParameterByName("Height", transform.position.y);
+
+        var cross = WindController.Instance.GetCross(transform.position);
+        var wind = WindController.Instance.GetForce(cross);
+        var windPct = wind.magnitude / WindController.Instance.Direction.magnitude;
+        RuntimeManager.StudioSystem.setParameterByName("WindSpeed", windPct);
     }
 
     public bool OnCommand(InputManager.Command command, InputManager.Event eventType) {
@@ -126,8 +138,11 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     private bool TryStep(OrthoDir dir) {
-        walkFrames += Time.deltaTime;
         if (dir == OrthoDir.North || dir == OrthoDir.South) {
+            if (!stepEmitter.IsPlaying()) {
+                stepEmitter.Play();
+            }
+            walkFrames += Time.deltaTime;
             var speed = tilesPerSecond;
             var underwater = WaterController.Level - transform.localPosition.y;
             if (underwater > 0) {

@@ -21,6 +21,7 @@ commonplace-book/Library
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
+.cache/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*

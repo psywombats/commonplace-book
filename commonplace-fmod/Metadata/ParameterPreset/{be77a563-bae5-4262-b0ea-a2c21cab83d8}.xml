@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{be77a563-bae5-4262-b0ea-a2c21cab83d8}">
+		<property name="name">
+			<value>WindSpeed</value>
+		</property>
+		<relationship name="folder">
+			<destination>{166d87a4-153c-4b3d-ac50-6ed50c661df6}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{708dd235-b28c-4f28-9cac-5d0e73a09938}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{708dd235-b28c-4f28-9cac-5d0e73a09938}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

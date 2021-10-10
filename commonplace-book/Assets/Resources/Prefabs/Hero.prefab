@@ -111,6 +111,8 @@ GameObject:
   - component: {fileID: 1825026035609387547}
   - component: {fileID: 1825026035609387548}
   - component: {fileID: 3820853588484492825}
+  - component: {fileID: 1507069294983328644}
+  - component: {fileID: 8804347104316169181}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -213,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesPerSecond: 4
   degreesPerSecond: 90
+  stepEmitter: {fileID: 8804347104316169181}
 --- !u!114 &3820853588484492825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +228,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fe54a95fdd28d40bd611b9f6322b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1507069294983328644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825026035609387550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Windy
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 1
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 7.2000003
+--- !u!114 &8804347104316169181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825026035609387550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Step2
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 1
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 40
 --- !u!1 &1825026035614471936
 GameObject:
   m_ObjectHideFlags: 0

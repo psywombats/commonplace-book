@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WindController : MonoBehaviour {
 
-    [SerializeField] private Vector3 force;
+    [SerializeField] private Vector3 force = default;
     [SerializeField] private float longPeriod = 30f;
     [SerializeField] private float longAmplitude = .8f;
     [SerializeField] private float fastPeriod = 2.5f;

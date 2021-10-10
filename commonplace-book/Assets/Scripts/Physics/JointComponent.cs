@@ -63,7 +63,7 @@ public class JointComponent : MonoBehaviour {
             }
         }
 
-        ApplyForce(WindController.Instance.Direction);
+        ApplyForce(WindController.Instance.GetForce(windProj));
     }
 
     public void OnReposition(bool enable) {
