@@ -17,7 +17,7 @@ public class WindController : MonoBehaviour {
     public Vector3 GetForce(float cross) {
         var coef = longAmplitude * Mathf.Sin(2f * Mathf.PI * (Time.timeSinceLevelLoad + cross / waveSpeed) / longPeriod) +
             fastAmplitude * Mathf.Sin(2f * Mathf.PI * (Time.timeSinceLevelLoad + cross / waveSpeed) / fastPeriod);
-        coef -= .1f;
+        coef -= .3f;
         if (coef < 0f) return Vector3.zero;
         else return coef * force;
     }

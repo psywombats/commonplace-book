@@ -38,6 +38,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8083872109862215692}
     m_Modifications:
+    - target: {fileID: 272110887210312294, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
+      propertyPath: damping
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 272110887210312294, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
+      propertyPath: springiness
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2393303145297392759, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -97,6 +105,14 @@ PrefabInstance:
     - target: {fileID: 3061717857151151821, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
       propertyPath: m_Name
       value: GrassBlade
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231802471233427465, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
+      propertyPath: damping
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231802471233427465, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}
+      propertyPath: springiness
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aa88bca5ea31ed4ab91ab7dbea55a24, type: 3}

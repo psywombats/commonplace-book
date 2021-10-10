@@ -4,8 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(CharaEvent))]
 public class AvatarEvent : MonoBehaviour, IInputListener {
 
-    [SerializeField] private float tilesPerSecond;
-    [SerializeField] private float degreesPerSecond;
+    [SerializeField] private float tilesPerSecond = 8f;
+    [SerializeField] private float degreesPerSecond = 70f;
+    [Space]
+    //[SerializeField] private SphereCollider collider = null;
 
     private int pauseCount;
     public bool InputPaused {
@@ -24,6 +26,9 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
         }
     }
 
+    private const float WalkFrameRamp = 1f;
+    private float walkFrames;
+
     public void Start() {
         Global.Instance().Maps.Avatar = this;
         Global.Instance().Input.PushListener(this);
@@ -31,11 +36,25 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     public virtual void Update() {
+        walkFrames -= Time.deltaTime / 2f;
+        if (walkFrames < 0) walkFrames = 0;
         var height = Event.Map.GetHeightAt(new Vector2(transform.localPosition.x, transform.localPosition.z));
         Event.transform.localPosition = new Vector3(
             Event.transform.localPosition.x,
             height,
             Event.transform.localPosition.z);
+
+        if (walkFrames > 0) {
+            var colliding = Physics.OverlapSphere(transform.position, 1f);
+            var walkRatio = walkFrames / WalkFrameRamp;
+            foreach (var collider in colliding) {
+                foreach (var joint in collider.transform.parent.GetComponentsInChildren<JointComponent>()) {
+                    joint.ApplyForce((joint.transform.position - transform.position) * walkRatio);
+                }
+            }
+        }
+
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Height", transform.position.y);
     }
 
     public bool OnCommand(InputManager.Command command, InputManager.Event eventType) {
@@ -107,6 +126,7 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     private bool TryStep(OrthoDir dir) {
+        walkFrames += Time.deltaTime;
         if (dir == OrthoDir.North || dir == OrthoDir.South) {
             var speed = tilesPerSecond;
             var underwater = WaterController.Level - transform.localPosition.y;

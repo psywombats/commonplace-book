@@ -194,7 +194,7 @@ public class LuaContext {
     }
 
     protected void PlaySFX(DynValue sfxKey, DynValue fanfareMode) {
-        Global.Instance().Audio.PlaySFX(sfxKey.String, mute: !fanfareMode.IsNil() && fanfareMode.Boolean);
+        Global.Instance().Audio.PlaySFX(sfxKey.String);
     }
 
     protected void Play(DynValue filename) {

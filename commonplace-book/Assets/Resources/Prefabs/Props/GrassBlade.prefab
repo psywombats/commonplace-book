@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814079523861463211}
-  - component: {fileID: 272110887210312294}
   m_Layer: 0
   m_Name: Bone.003
   m_TagString: Untagged
@@ -32,21 +31,6 @@ Transform:
   m_Father: {fileID: 1290141745920014539}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &272110887210312294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272110887210312295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ed213a32536bee49be91000583612e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  neutralDirection: {x: 0, y: 1, z: 0}
-  damping: 44
-  springiness: 5
 --- !u!1 &3061717857151151821
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,8 +196,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neutralDirection: {x: 0, y: 1, z: 0}
-  damping: 48
-  springiness: 10
+  damping: 50
+  springiness: 0.1
+  speed: 2.5
 --- !u!1 &5123310251664879267
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1290141745920014539}
-  - component: {fileID: 7231802471233427465}
+  - component: {fileID: 4193351815453976542}
   m_Layer: 0
   m_Name: Bone.002
   m_TagString: Untagged
@@ -308,7 +293,7 @@ Transform:
   m_Father: {fileID: 81473218363878158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7231802471233427465
+--- !u!114 &4193351815453976542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,8 +306,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neutralDirection: {x: 0, y: 1, z: 0}
-  damping: 46
-  springiness: 7.5
+  damping: 50
+  springiness: 0.1
+  speed: 2.5
 --- !u!1 &7844858715055841015
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,8 +385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neutralDirection: {x: 0, y: 1, z: 0}
-  damping: 60
-  springiness: 20
+  damping: 50
+  springiness: 0.1
+  speed: 2.5
 --- !u!1 &9174902266918612405
 GameObject:
   m_ObjectHideFlags: 0
