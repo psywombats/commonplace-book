@@ -1,5 +1,71 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6929512024768350062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/PlayerSpeed
+  m_EditorClassIdentifier: 
+  Name: PlayerSpeed
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 96770856
+    data2: 3969514356
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
+--- !u!114 &-6681474114559104233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Step2/Height
+  m_EditorClassIdentifier: 
+  Name: Height
+  Min: 0
+  Max: 15
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
+--- !u!114 &-6169048696368622147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Step2/PlayerSpeed
+  m_EditorClassIdentifier: 
+  Name: PlayerSpeed
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
 --- !u!114 &-4404977700693626021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +81,10 @@ MonoBehaviour:
   Path: ../commonplace-fmod/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 637694233020000000
+  lastModified: 637694331840000000
   FileSizes:
   - Name: Desktop
-    Value: 482
+    Value: 713120
   Exists: 1
 --- !u!114 &-3027558088684032185
 MonoBehaviour:
@@ -42,6 +108,101 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 1
   Exists: 1
+--- !u!114 &-2306490614375810327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Step
+  m_EditorClassIdentifier: 
+  Path: event:/Step
+  guid: 02f070277cd88140bf88d1b91e0a164d
+  Banks:
+  - {fileID: -4404977700693626021}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -51380560014215005}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
+--- !u!114 &-1421494602381463114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Windy
+  m_EditorClassIdentifier: 
+  Path: event:/Windy
+  guid: b47b506dfab1aa4c856fb9a32c76a504
+  Banks:
+  - {fileID: -4404977700693626021}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 2429569182918450012}
+  MinDistance: 0
+  MaxDistance: 7.2000003
+  Length: 0
+--- !u!114 &-435612124078209319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Step2
+  m_EditorClassIdentifier: 
+  Path: event:/Step2
+  guid: 6b11e426e5132848b2b4e2812ea36ea2
+  Banks:
+  - {fileID: -4404977700693626021}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6169048696368622147}
+  - {fileID: -6681474114559104233}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-51380560014215005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Step/Height
+  m_EditorClassIdentifier: 
+  Name: Height
+  Min: 0
+  Max: 15
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,17 +219,66 @@ MonoBehaviour:
   - {fileID: 4987749765576806593}
   - {fileID: 8739887344519942143}
   - {fileID: -4404977700693626021}
-  - {fileID: 5744382268742564791}
-  EditorEvents: []
+  EditorEvents:
+  - {fileID: 1833829723001393686}
+  - {fileID: -2306490614375810327}
+  - {fileID: -435612124078209319}
+  - {fileID: -1421494602381463114}
   EditorParameters:
   - {fileID: -3027558088684032185}
   - {fileID: 7076920780751903974}
+  - {fileID: -6929512024768350062}
   MasterBanks:
   - {fileID: 8739887344519942143}
   StringsBanks:
   - {fileID: 4987749765576806593}
-  stringsBankWriteTime: 637694233020000000
+  stringsBankWriteTime: 637694331840000000
   cacheVersion: 8
+--- !u!114 &1833829723001393686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BushRustle
+  m_EditorClassIdentifier: 
+  Path: event:/BushRustle
+  guid: 019debb08e7b4e4686602650c66d2310
+  Banks:
+  - {fileID: -4404977700693626021}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1500
+--- !u!114 &2429569182918450012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Windy/WindSpeed
+  m_EditorClassIdentifier: 
+  Name: WindSpeed
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
 --- !u!114 &4987749765576806593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,10 +294,10 @@ MonoBehaviour:
   Path: ../commonplace-fmod/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637694233020000000
+  lastModified: 637694331840000000
   FileSizes:
   - Name: Desktop
-    Value: 880
+    Value: 1062
   Exists: 1
 --- !u!114 &5744382268742564791
 MonoBehaviour:
@@ -168,8 +378,8 @@ MonoBehaviour:
   Path: ../commonplace-fmod/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637694233020000000
+  lastModified: 637694331840000000
   FileSizes:
   - Name: Desktop
-    Value: 1352
+    Value: 1514
   Exists: 1

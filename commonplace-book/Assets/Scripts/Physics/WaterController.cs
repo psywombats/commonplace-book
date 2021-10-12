@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class WaterController : MonoBehaviour {
 
-    static float level = 2.7f;
+    [SerializeField] private float offset = 0f;
 
-    public static float Level => level;
+    public static float Level => 2.7f;
 
     protected void Update() {
-        if (transform.position.y != level) {
+        if (transform.position.y != Level) {
             transform.position = new Vector3(
                 transform.position.x,
-                level,
+                Level + offset,
                 transform.position.z);
         }
     }

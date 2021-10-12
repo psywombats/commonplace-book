@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(CharaEvent))]
 public class AvatarEvent : MonoBehaviour, IInputListener {
 
-    [SerializeField] private float tilesPerSecond = 8f;
-    [SerializeField] private float degreesPerSecond = 70f;
+    [SerializeField] private float tilesPerSecond = 6f;
+    [SerializeField] private float degreesPerSecond = 60f;
     [Space]
     [SerializeField] private StudioEventEmitter stepEmitter = null;
-    //[SerializeField] private SphereCollider collider = null;
+    [SerializeField] private RippleEmitterComponent rippleEmitter = null;
 
     private int pauseCount;
     public bool InputPaused {
@@ -39,6 +39,7 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
     }
 
     public virtual void Update() {
+        var speed = walkFrames / WalkFrameRamp;
         walkFrames -= Time.deltaTime / 2f;
         if (walkFrames > WalkFrameRamp) walkFrames = WalkFrameRamp;
         if (walkFrames < 0) walkFrames = 0;
@@ -57,11 +58,20 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
                     joint.ApplyForce((joint.transform.position - transform.position) * walkRatio);
                 }
             }
+        } else {
+            speed = speed - (1f - speed) * 2f;
         }
         lastWalkFrames = walkFrames;
 
-        RuntimeManager.StudioSystem.setParameterByName("PlayerSpeed", walkFrames / WalkFrameRamp);
+        
+        RuntimeManager.StudioSystem.setParameterByName("PlayerSpeed", speed);
         RuntimeManager.StudioSystem.setParameterByName("Height", transform.position.y);
+
+        rippleEmitter.SpeedUp(speed * 1.5f);
+        rippleEmitter.enabled = height <= WaterController.Level;
+        if (walkFrames < lastWalkFrames) {
+            rippleEmitter.transform.position = transform.position;
+        }
 
         var cross = WindController.Instance.GetCross(transform.position);
         var wind = WindController.Instance.GetForce(cross);
@@ -159,6 +169,11 @@ public class AvatarEvent : MonoBehaviour, IInputListener {
                 Event.transform.localPosition.x + Mathf.Sin(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * speed * Time.deltaTime,
                 Event.transform.localPosition.y,
                 Event.transform.localPosition.z + Mathf.Cos(Mathf.Deg2Rad * transform.localRotation.eulerAngles.y) * speed * Time.deltaTime);
+
+            //rippleEmitter.transform.position = new Vector3(
+            //    transform.position.x,
+            //    transform.position.y,
+            //    transform.position.z + (dir == OrthoDir.North ? .4f : -.2f));
         } else {
             var sign = dir == OrthoDir.East ? 1 : -1;
             Event.transform.Rotate(Vector3.up, degreesPerSecond * sign * Time.deltaTime);
