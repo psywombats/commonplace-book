@@ -5,8 +5,8 @@ Shader "Commonplace/WaterSurface"
         _Var("Var", Range(0, 15)) = 0.5
         _NoiseTex("Noise texture", 2D) = "white" {}
         _ReflectionTex("Reflection texture", 2D) = "black" {}
-        _Smoothness("Smoothness", Range(0,1)) = 0.6
-		_Metallic("Metallic", Range(0,1)) = 0.6
+        _Smoothness("Smoothness", Range(0,1)) = 1
+		_Metallic("Metallic", Range(0,1)) = 0
 	}
 
 	SubShader
